@@ -1,0 +1,8 @@
+# служебное и мусор
+Thumbs.db
+desktop.ini
+.DS_Store
+*.log
+
+# скриншоты проверки
+shots/
