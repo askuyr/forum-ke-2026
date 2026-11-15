@@ -474,6 +474,13 @@ figure { margin: 0; }
 .frames .frame:first-child { aspect-ratio: 4 / 3; }
 .frames .frame:last-child { aspect-ratio: 4 / 3; }
 
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+.gallery .frame { aspect-ratio: 4 / 3; }
+
 /* ---------- направления: строки со знаком ---------- */
 .dirs { border-top: 1px solid var(--rule); }
 .dir {
@@ -773,6 +780,20 @@ figure { margin: 0; }
     height: 1px;
     background: var(--gold);
 }
+.pkg__act {
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: 6px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--gold);
+    font-size: var(--t-xs);
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--blue);
+    text-decoration: none;
+}
+.pkg__act:hover { color: var(--red); border-bottom-color: var(--red); }
 
 /* ---------- вечерний блок ---------- */
 .night {
@@ -799,7 +820,7 @@ figure { margin: 0; }
     pointer-events: none;
 }
 .night .h2 { color: var(--on-ink); }
-.night .h2 em { color: var(--gold); }
+.night .h2 em { color: var(--gold-light); }
 .night .p { color: var(--on-ink-70); }
 .night__list { display: grid; gap: 14px; margin-top: 8px; }
 .night__list li {
@@ -812,7 +833,7 @@ figure { margin: 0; }
 }
 .night__list span {
     font-family: var(--font-display);
-    color: var(--gold);
+    color: var(--gold-light);
     font-size: 15px;
     line-height: 1.4;
 }
@@ -934,10 +955,15 @@ figure { margin: 0; }
 .ftr a:hover { color: var(--gold); }
 .ftr__top {
     display: grid;
-    grid-template-columns: 4fr 3fr 3fr;
+    grid-template-columns: 4fr 4fr 3fr 3fr;
     gap: var(--col-gap);
     padding-bottom: 40px;
     border-bottom: 1px solid var(--on-ink-18);
+}
+.ftr__two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 20px;
 }
 .ftr__brand { display: flex; align-items: flex-start; gap: 16px; }
 .ftr__mark { width: 40px; height: 31px; flex: none; }
@@ -1129,6 +1155,7 @@ figure { margin: 0; }
     .stat:last-child { border-bottom: 0; }
     .stat__l { text-align: right; max-width: 18ch; }
     .frames { grid-template-columns: 1fr; }
+    .gallery { grid-template-columns: 1fr; }
     .form__grid { grid-template-columns: 1fr; }
     .person { grid-template-columns: 1fr; }
     .person__ph { width: 120px; }
