@@ -1,4 +1,4 @@
-/* Меню, вкладки программы, появление блоков и демонстрационный режим формы. */
+/* Меню, вкладки программы и появление блоков. */
 (function () {
     'use strict';
 
@@ -73,19 +73,4 @@
         });
     }
 
-    /* --- форма: отправка подключается к почте или CRM, сейчас демо-режим --- */
-    var form = document.getElementById('reg-form');
-    var status = document.getElementById('form-status');
-
-    if (form && status) {
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                status.textContent = 'Проверьте отмеченные поля.';
-                return;
-            }
-            status.textContent = 'Форма работает в демонстрационном режиме: отправку заявок подключаем к почте оргкомитета.';
-        });
-    }
 })();

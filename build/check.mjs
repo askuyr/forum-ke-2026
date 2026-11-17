@@ -1,4 +1,4 @@
-﻿// Проверка страниц: файлы, якоря, шрифты, вкладки, меню, форма.
+﻿// Проверка страниц: файлы, якоря, шрифты, вкладки, меню, статус регистрации.
 // Запуск: node build/check.mjs  (BASE_URL=http://127.0.0.1:8112 при другом порте)
 import { spawn } from 'node:child_process';
 import { mkdtempSync } from 'node:fs';
@@ -95,7 +95,7 @@ const tabs = await run(`(async () => {
 console.log('вкладки:', tabs);
 if (!JSON.parse(tabs).after || !JSON.parse(tabs).back || !JSON.parse(tabs).selected) problems.push('вкладки: переключение сломано');
 
-// 3. мобильное меню и форма
+// 3. мобильное меню и статус регистрации
 await open('/index.html', 390);
 const mobile = await run(`(() => {
     const b = document.getElementById('burger');
@@ -111,21 +111,16 @@ const mobile = await run(`(() => {
 console.log('меню:', mobile);
 if (Object.values(JSON.parse(mobile)).includes(false)) problems.push('меню: ' + mobile);
 
-const form = await run(`(() => {
-    const f = document.getElementById('reg-form');
-    f.querySelector('#f-name').value = 'Тест';
-    f.querySelector('#f-mail').value = 'no-mail';
-    const invalidBlocked = f.checkValidity() === false;
-    f.querySelector('#f-mail').value = 'test@example.ru';
-    f.querySelector('#f-tel').value = '+7 900 000 00 00';
-    f.querySelector('#f-format').value = [...f.querySelector('#f-format').options][1].value;
-    f.querySelector('input[name=consent]').checked = true;
-    f.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
-    const status = document.getElementById('form-status').textContent;
-    return JSON.stringify({ invalidBlocked, status });
+const registration = await run(`(() => {
+    const section = document.getElementById('register');
+    return JSON.stringify({
+        noForm: !section.querySelector('form'),
+        notice: /регистрация пока не открыта/i.test(section.innerText),
+        noPersonalData: /не собирает персональные данные/i.test(section.innerText)
+    });
 })()`);
-console.log('форма:', form);
-if (!JSON.parse(form).status) problems.push('форма: нет ответа на отправку');
+console.log('регистрация:', registration);
+if (Object.values(JSON.parse(registration)).includes(false)) problems.push('регистрация: неверный статус или форма всё ещё активна');
 
 console.log(problems.length ? `\nПРОБЛЕМЫ:\n- ${problems.join('\n- ')}` : '\nВсё чисто.');
 socket.close();
